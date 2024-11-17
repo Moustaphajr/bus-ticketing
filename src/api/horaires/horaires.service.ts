@@ -83,20 +83,12 @@ export class HorairesService {
   }
 
   async findOne(id: number) {
-    let horaireCriteria = {
+    const foundedHoraire = await this.prisma.horaire.findFirstOrThrow({
       where: {
         id: id,
       },
-    };
-    const horaire =
-      await this.prisma.horaire.findUniqueOrThrow(horaireCriteria);
-    if (!horaire) {
-      throw new HttpException(
-        'Aucun horaire trouvé avec cet identifiant',
-        HttpStatus.NOT_FOUND,
-      );
-    }
-    return horaire;
+    });
+    return foundedHoraire;
   }
 
   async update(id: number, updateHoraireDto: UpdateHoraireDto) {
